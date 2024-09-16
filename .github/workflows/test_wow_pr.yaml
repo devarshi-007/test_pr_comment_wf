@@ -1,0 +1,26 @@
+name: PR Wow
+
+on:
+  issue_comment:
+    types: [created]
+
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  say_hi:
+    if: github.event.comment.body == '/wow'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Respond with Hi
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hi 👋! You triggered the /wow command.
